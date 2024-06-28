@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:organix/constant/color.dart';
+import 'package:organix/extension/app_extension.dart';
+import 'package:organix/view/home_view/widgets/home_items_widgets.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,29 +22,163 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Home"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: context.sHeight * .05),
+            child: Center(
+              child: Image.asset(
+                "assets/logo.png",
+                width: context.sWidth * 0.20,
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          Image.asset(
+            "assets/banner.jpg",
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: context.pageRLPadding.padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                context.emptyWidget,
+                Text(
+                  "Kategoriler",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .merge(TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                context.emptyWidget,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: context.sWidth * 0.02),
+                        child: InputChip(
+                          onPressed: () {},
+                          selectedColor: Colors.transparent,
+                          selected: false,
+                          label: Text(
+                            "Meyve & Sebze",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          backgroundColor: AppColor.primary,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: AppColor.primary),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: context.sWidth * 0.02),
+                        child: InputChip(
+                          showCheckmark: false,
+                          selected: true,
+                          selectedColor: Colors.transparent,
+                          onPressed: () {
+                            print("Basılsı");
+                          },
+                          label: Text(
+                            "Meyve & Sebze",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: context.sWidth * 0.02),
+                        child: InputChip(
+                          showCheckmark: false,
+                          selected: true,
+                          selectedColor: Colors.transparent,
+                          onPressed: () {
+                            print("Basılsı");
+                          },
+                          label: Text(
+                            "Meyve & Sebze",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: context.sWidth * 0.02),
+                        child: InputChip(
+                          showCheckmark: false,
+                          selected: true,
+                          selectedColor: Colors.transparent,
+                          onPressed: () {
+                            print("Basılsı");
+                          },
+                          label: const Text(
+                            "Sağlık Ürünleri",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: context.sHeight * 0.55,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: const [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Wrap(
+                              spacing:
+                                  50, // Öğeler arasındaki yatay boşluk (İsteğe bağlı)
+                              runSpacing:
+                                  50, // Öğeler arasındaki dikey boşluk (İsteğe bağlı)
+                              children: [
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                                HomeItemWidget(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

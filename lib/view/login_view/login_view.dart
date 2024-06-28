@@ -87,7 +87,9 @@ class LoginView extends StatelessWidget {
               )),
           context.emptyWidgetset(0.07),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed("/home");
+              },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
                   backgroundColor: AppColor.primary,
