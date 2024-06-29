@@ -11,29 +11,61 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+            ),
+            label: "Anasayfa"),
+        BottomNavigationBarItem(
+            icon: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed("/blog");
+                },
+                child: Icon(Icons.favorite)),
+            label: "Blog"),
+        BottomNavigationBarItem(
+            icon: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed("/profile");
+                },
+                child: Icon(Icons.person_2_outlined)),
+            label: "Profil")
+      ]),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: context.sHeight * .05),
-            child: Center(
-              child: Image.asset(
-                "assets/logo.png",
-                width: context.sWidth * 0.20,
-              ),
-            ),
-          ),
+              padding: EdgeInsets.only(top: context.sHeight * .05),
+              child: Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(), // İlk Spacer, logoyu sola kaydırır
+                    Padding(
+                      padding: EdgeInsets.only(left: context.sWidth * 0.10),
+                      child: Image.asset(
+                        "assets/logo.png",
+                        width: MediaQuery.of(context).size.width * 0.20,
+                      ),
+                    ),
+                    Spacer(), // İkinci Spacer, logoyu ortalar
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/basket");
+                      },
+                      icon: Icon(
+                        Icons.shopping_basket_outlined,
+                        size: context.sWidth * .08,
+                      ),
+                    )
+                  ],
+                ),
+              )),
           Image.asset(
             "assets/banner.jpg",
             fit: BoxFit.cover,
@@ -145,7 +177,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 SizedBox(
-                  height: context.sHeight * 0.55,
+                  height: context.sHeight * 0.45,
                   child: ListView(
                     shrinkWrap: true,
                     children: const [
