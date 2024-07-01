@@ -10,7 +10,7 @@ import 'package:organix/view/splash_view/splash_view.dart';
 Map<String, WidgetBuilder> get routes {
   return {
     '/splash': (context) => SplashView(),
-    '/login': (context) => const LoginView(),
+    '/login': (context) => LoginView(),
     '/register': (context) => const RegisterView(),
     '/home': (context) => const HomeView(),
     '/blog': (context) => const BlogView(),

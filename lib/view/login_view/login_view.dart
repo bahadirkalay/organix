@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:organix/constant/color.dart';
 import 'package:organix/extension/app_extension.dart';
+import 'package:organix/services/login_service.dart';
+import 'package:organix/view/login_view/validator.dart';
+import 'package:organix/view_model/login.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  LoginView({super.key});
+  final GlobalKey<FormState> loginFormKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    final LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(
@@ -27,6 +34,7 @@ class LoginView extends StatelessWidget {
                 top: context.sHeight * 0.15,
               ),
               child: Form(
+                key: loginFormKey,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -39,9 +47,11 @@ class LoginView extends StatelessWidget {
                       ),
                       context.emptyWidgetset(0.10),
                       TextFormField(
+                        validator: validatorUsername,
+                        controller: loginViewModel.username,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          hintText: "E-Posta Adresiniz",
+                          hintText: "Kullanıcı Adı",
                           prefixIcon: Icon(Icons.mail_outline_outlined),
                           filled: true,
                           fillColor: Colors.grey.shade200,
@@ -62,6 +72,8 @@ class LoginView extends StatelessWidget {
                       ),
                       context.emptyWidget,
                       TextFormField(
+                        validator: validatorPassword,
+                        controller: loginViewModel.password,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: "Şifreniz",
@@ -87,8 +99,16 @@ class LoginView extends StatelessWidget {
               )),
           context.emptyWidgetset(0.07),
           ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/home");
+              onPressed: () async {
+                if (loginFormKey.currentState!.validate()) {
+                  await LoginService().loginService(context,
+                      username: loginViewModel.username.text,
+                      password: loginViewModel.password.text);
+                }
+
+                print(loginViewModel.username);
+                print(loginViewModel.password);
+                //Navigator.of(context).pushNamed("/home");
               },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
