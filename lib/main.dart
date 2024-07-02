@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:organix/constant/routes.dart';
+import 'package:organix/models/product_model.dart';
 import 'package:organix/view/splash_view/splash_view.dart';
 import 'package:organix/view_model/login.dart';
+import 'package:organix/view_model/post.dart';
+import 'package:organix/view_model/product.dart';
+import 'package:organix/view_model/register.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,6 +22,15 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<LoginViewModel>(
           create: (_) => LoginViewModel(),
+        ),
+        ChangeNotifierProvider<RegisterViewwModel>(
+          create: (_) => RegisterViewwModel(),
+        ),
+        ChangeNotifierProvider<ProductViewModel>(
+          create: (_) => ProductViewModel(),
+        ),
+        ChangeNotifierProvider<PostViewModel>(
+          create: (_) => PostViewModel(),
         ),
       ],
       child: MaterialApp(

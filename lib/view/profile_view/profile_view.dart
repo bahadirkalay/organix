@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:organix/constant/color.dart';
 import 'package:organix/extension/app_extension.dart';
+import 'package:organix/view_model/login.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
@@ -17,7 +20,7 @@ class ProfileView extends StatelessWidget {
       body: Padding(
         padding: context.pageRLPadding.padding,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +34,7 @@ class ProfileView extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
-                        "https://plus.unsplash.com/premium_photo-1682724602143-a77d75d273b1?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                        "https://images.unsplash.com/photo-1640951613773-54706e06851d?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                     maxRadius: context.sWidth * 0.17,
                   ),
                 ),
@@ -41,12 +44,27 @@ class ProfileView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Batuhan KALAY",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .merge(TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Text(
+                            loginViewModel.loginModel.user?.firstName
+                                    .toString() ??
+                                "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .merge(TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          Text(
+                            loginViewModel.loginModel.user?.lastName
+                                    .toString() ??
+                                "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .merge(TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ],
                       ),
                       Text(
                         "Müşteri",
@@ -80,24 +98,19 @@ class ProfileView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        profileItem(context, "Adı Soyadı : ", "Batuhan Kalay"),
-                        profileItem(context, "Birim : ", "userBloc.department"),
-                        profileItem(
-                            context, "Yönetici : ", "userBloc.executive"),
-                        profileItem(context, "E-Posta : ", "userBloc.email"),
-                        profileItem(context, "Sicil No : ",
-                            "userBloc.registrationNumber"),
-                        profileItem(context, "İşe Giriş Tarihi : ",
-                            "userBloc.dateEmployment"),
-                        profileItem(
-                            context, "Doğum Tarihi : ", "userBloc.birthday"),
+                        profileItem(context, "Adı : ",
+                            loginViewModel.loginModel.user?.firstName ?? ""),
+                        profileItem(context, "Soyadı : ",
+                            loginViewModel.loginModel.user?.lastName ?? ""),
+                        profileItem(context, "E-Posta : ",
+                            loginViewModel.loginModel.user?.email ?? ""),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            Padding(
+            /* Padding(
               padding: EdgeInsets.only(bottom: context.sHeight * 0.20),
               child: SizedBox(
                   height: context.sHeight * 0.07,
@@ -113,7 +126,7 @@ class ProfileView extends StatelessWidget {
                         "Çıkış Yap",
                         style: TextStyle(color: Colors.white),
                       ))),
-            ),
+            ), */
           ],
         ),
       ),
@@ -132,7 +145,7 @@ Widget profileItem(BuildContext context, String title, String desc) {
             width: context.sWidth * 0.27,
             child: Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.end,
             )),
         Text(desc.toString())

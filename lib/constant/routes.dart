@@ -11,9 +11,9 @@ Map<String, WidgetBuilder> get routes {
   return {
     '/splash': (context) => SplashView(),
     '/login': (context) => LoginView(),
-    '/register': (context) => const RegisterView(),
-    '/home': (context) => const HomeView(),
-    '/blog': (context) => const BlogView(),
+    '/register': (context) => RegisterView(),
+    '/home': (context) => HomeView(),
+    '/blog': (context) => BlogView(),
     '/profile': (context) => ProfileView(),
     '/basket': (context) => BasketView(),
   };

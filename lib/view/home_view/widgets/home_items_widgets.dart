@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:organix/constant/color.dart';
 import 'package:organix/extension/app_extension.dart';
 
+// ignore: must_be_immutable
 class HomeItemWidget extends StatelessWidget {
-  const HomeItemWidget({
-    super.key,
-  });
+  String? title;
+  String? images;
+  String? pay;
+  Function()? onpressed;
+  HomeItemWidget(
+      {super.key, this.title, this.images, this.pay, this.onpressed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,12 @@ class HomeItemWidget extends StatelessWidget {
           color: Colors.grey.shade200,
           child: Stack(
             children: [
+              Center(
+                  child: Image.network(
+                images ??
+                    "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?q=80&w=2739&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                width: context.sWidth * .30,
+              )),
               Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
@@ -27,23 +37,18 @@ class HomeItemWidget extends StatelessWidget {
                         color: Colors.white),
                     child: IconButton(
                         style: const ButtonStyle(),
-                        onPressed: () {},
+                        onPressed: onpressed,
                         icon: const Icon(
                           Icons.add,
                           color: AppColor.primary,
                         )),
-                  )),
-              Center(
-                  child: Image.asset(
-                "assets/logo.png",
-                width: context.sWidth * .30,
-              ))
+                  ))
             ],
           ),
         ),
         context.emptyWidget,
         Text(
-          "48.50 ₺",
+          pay.toString() + " ₺ ",
           style: Theme.of(context)
               .textTheme
               .titleMedium!
@@ -51,7 +56,7 @@ class HomeItemWidget extends StatelessWidget {
         ),
         context.emptyWidgetset(0.003),
         Text(
-          "Milagro Yerli Muz - 600 Gr",
+          title.toString(),
           style: Theme.of(context).textTheme.labelSmall,
         )
       ],

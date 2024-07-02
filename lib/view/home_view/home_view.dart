@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:organix/constant/color.dart';
 import 'package:organix/extension/app_extension.dart';
+import 'package:organix/services/product_service.dart';
 import 'package:organix/view/home_view/widgets/home_items_widgets.dart';
+import 'package:organix/view_model/product.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,7 +15,19 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await ProductService().productService(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final ProductViewModel productViewModel =
+        Provider.of<ProductViewModel>(context);
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(items: [
         BottomNavigationBarItem(
@@ -54,13 +69,19 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     Spacer(), // İkinci Spacer, logoyu ortalar
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed("/basket");
-                      },
-                      icon: Icon(
-                        Icons.shopping_basket_outlined,
-                        size: context.sWidth * .08,
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Badge(
+                        label: Text(productViewModel.sayac.toString()),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/basket");
+                          },
+                          icon: Icon(
+                            Icons.shopping_basket_outlined,
+                            size: context.sWidth * .08,
+                          ),
+                        ),
                       ),
                     )
                   ],
@@ -177,35 +198,33 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 SizedBox(
-                  height: context.sHeight * 0.45,
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: const [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Wrap(
-                              spacing:
-                                  50, // Öğeler arasındaki yatay boşluk (İsteğe bağlı)
-                              runSpacing:
-                                  50, // Öğeler arasındaki dikey boşluk (İsteğe bağlı)
-                              children: [
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                                HomeItemWidget(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
+                    height: context.sHeight * 0.45,
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // İki sütunlu bir grid
+                        crossAxisSpacing: 20, // Yatayda sütunlar arası boşluk
+                        mainAxisSpacing: 10, // Dikeyde satırlar arası boşluk
+                        childAspectRatio:
+                            0.76, // Öğelerin genişlik-yükseklik oranı
+                      ),
+                      itemCount: productViewModel.productModel.length,
+                      itemBuilder: (context, index) {
+                        return HomeItemWidget(
+                          title: productViewModel.productModel[index].title,
+                          images: productViewModel.productModel[index].image,
+                          pay: productViewModel.productModel[index].pay
+                              .toString(),
+                          onpressed: () {
+                            productViewModel.basket
+                                .add(productViewModel.productModel[index]);
+                            productViewModel.sayac += 1;
+                            print(productViewModel.productModel[index].title);
+                          },
+                        );
+                      },
+                    ))
               ],
             ),
           )
